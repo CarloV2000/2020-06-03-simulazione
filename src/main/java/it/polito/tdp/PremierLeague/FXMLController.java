@@ -5,6 +5,7 @@
 package it.polito.tdp.PremierLeague;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -66,14 +67,29 @@ public class FXMLController {
 
     @FXML
     void doDreamTeam(ActionEvent event) {
-
+    	String min = this.txtK.getText();
+    	Integer k;
+    	try {
+    		k = Integer.parseInt(min);
+    	}catch(NumberFormatException e) {
+    		this.txtResult.setText("Inserire un numero nel campo MinGoals");
+    		return;
+    	}
+    	model.calcolaDreamTeam(k);
+    	Double maxT = model.getMaxTitolarita();
+    	List<Player> dreamTeam = new ArrayList<>(model.getMigliore());
+    	String s = "Dream Team (massima Titolarità = "+maxT+")\n";
+    	for(Player x : dreamTeam) {
+    		s += x.getName()+"\n";
+    	}
+    	this.txtResult.setText(s);
     }
 
     @FXML
     void doTopPlayer(ActionEvent event) {
     	Player p = model.topPlayer();
     	Integer nBattuti = model.getnMaxPlayersBattuti();
-    	List<PlayerDelta>battuti = model.getPlayersBattuti(p);
+    	List<PlayerDelta>battuti = new ArrayList<>(model.getPlayersBattuti(p));
     	String s = "Top player : "+p.getName()+" (numero players battuti : "+nBattuti+")\nPlayers battuti:\n";
 
     	for(PlayerDelta x : battuti) {
