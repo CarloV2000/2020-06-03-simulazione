@@ -17,14 +17,12 @@ public class Model {
 		private List<Player>allPlayers;
 		private PremierLeagueDAO dao;
 		private Integer nMaxPlayersBattuti;
-		//private Map<String, People>idMap;
 		
 		
 		public Model() {
 			this.allPlayers = new ArrayList<>();
 			this.dao = new PremierLeagueDAO();
 			this.nMaxPlayersBattuti = 0;
-//			this.idMap = new HashMap<>();	
 			
 		}
 		
@@ -78,6 +76,9 @@ public class Model {
 			return playersBattuti;
 		}
 
+		
+		
+		
 		public Graph<Player, DefaultWeightedEdge> getGrafo() {
 			return grafo;
 		}
