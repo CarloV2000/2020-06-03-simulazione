@@ -5,9 +5,12 @@
 package it.polito.tdp.PremierLeague;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.PremierLeague.model.Model;
+import it.polito.tdp.PremierLeague.model.Player;
+import it.polito.tdp.PremierLeague.model.PlayerDelta;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -44,7 +47,21 @@ public class FXMLController {
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
-
+    	String min = this.txtGoals.getText();
+    	Double nMinGoals;
+    	if(min == null) {
+    		this.txtResult.setText("Inserire un valore nel campo MinGoals");
+    		return;
+    	}
+    	try {
+    		nMinGoals = Double.parseDouble(min);
+    	}catch(NumberFormatException e) {
+    		this.txtResult.setText("Inserire un numero nel campo MinGoals");
+    		return;
+    	}
+    	String s = model.creaGrafo(nMinGoals);
+    	this.txtResult.setText(s);
+    	
     }
 
     @FXML
@@ -54,7 +71,15 @@ public class FXMLController {
 
     @FXML
     void doTopPlayer(ActionEvent event) {
+    	Player p = model.topPlayer();
+    	Integer nBattuti = model.getnMaxPlayersBattuti();
+    	List<PlayerDelta>battuti = model.getPlayersBattuti(p);
+    	String s = "Top player : "+p.getName()+" (numero players battuti : "+nBattuti+")\nPlayers battuti:\n";
 
+    	for(PlayerDelta x : battuti) {
+    		s += x.getP().getName()+" deltaMinuti = "+x.getDeltaTime()+"\n";
+    	}
+    	this.txtResult.setText(s);
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
